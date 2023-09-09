@@ -1,3 +1,4 @@
+
   table {
     margin-bottom: 2em !important;
     border-spacing: 0pt !important;
@@ -61,6 +62,9 @@
 	}
 	table td {
 		font-size: 12px !important;
+	}
+	.inner{
+	margin-left: -20px !important;
 	}
 }
 @media screen and (max-width: 480px) {
