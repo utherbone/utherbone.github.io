@@ -295,6 +295,10 @@ body::-webkit-scrollbar-thumb {
   #HEADER
 \*-----------------------------------*/
 
+.autism_logo {
+  width: 25px;
+}
+
 .header {
   position: fixed;
   top: 0;
@@ -314,6 +318,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .logo {
+  display: inherit !important;
   color: var(--black);
   font-family: var(--ff-poppins);
   font-size: 3.2rem;
