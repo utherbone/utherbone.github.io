@@ -7,7 +7,20 @@
  */
 
 
+/*-----------------------------------*\
+  #Utherbone custons
+\*-----------------------------------*/
 
+.descript
+{ text-align: left;font-size: larger;color: darkcyan;}
+.container
+{ gap: 20px !important;}
+
+.focus
+{ min-height: 50vh !important;}
+
+.banner-games
+{ width: 600px !important;}
 
 
 /*-----------------------------------*\
@@ -212,7 +225,7 @@ body::-webkit-scrollbar-thumb {
   font-family: var(--ff-poppins);
 }
 
-.h1 { font-size: var(--fs-30); }
+.h1 { font-size: 3rem; }
 
 .h1,
 .h2 {
