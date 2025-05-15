@@ -1140,13 +1140,152 @@ def mover_reto(distancia_cm):
             <p>O tempo que o motor fica ligado é uma <strong>consequência</strong> da distância que você quer percorrer e dos parâmetros físicos/velocidade. Você "ajusta" a distância percorrida primariamente através do diâmetro da roda e garantindo que não haja patinagem, não diretamente ajustando o tempo para uma distância específica (a menos que você mude a lógica para controlar por tempo em vez de distância).</p>
             <p>Ao visualizar o <code class="inline-code">tempo_necessario_ms</code> calculado, você pode ter uma melhor ideia de como os parâmetros (<code class="inline-code">distancia_cm</code>, <code class="inline-code">DIAMETRO_RODA_TRACAO_MM</code>, <code class="inline-code">VELOCIDADE_RETA_DPS</code>) interagem para produzir o movimento.</p>
         </section>
+			
+		<section id="guia-calibragem-detalhada">
+            <h2>EXTRA 3: Usando o Programa de Calibragem no Display com Botões</h2>
+            <p>O <code class="inline-code">programa_calibragem</code> no seu script é uma ferramenta crucial para ajustar e testar os movimentos do seu robô F1 de forma isolada. Abaixo, explicamos como acessá-lo, navegar por suas opções e o que esperar de cada uma.</p>
 
+            <h3>1. Como Acessar o Modo de Calibragem</h3>
+            <ol>
+                <li>Execute o script Python principal no seu bloco EV3.</li>
+                <li>Você verá a tela inicial com as opções. Por exemplo:
+                    <p style="font-family: monospace; background-color: #e0e0e0; padding: 5px; border-radius: 3px;">
+                        Pronto!<br>
+                        Esq: Calibrar<br>
+                        Dir: Iniciar Percurso
+                    </p>
+                </li>
+                <li>Pressione o <strong>Botão Esquerdo</strong> do EV3 para entrar no modo de calibragem.</li>
+            </ol>
+
+            <h3>2. Navegando no Menu de Calibragem</h3>
+            <p>Ao entrar, após uma breve mensagem de introdução, o menu de calibragem será exibido. Uma das opções estará destacada (geralmente com um <code class="inline-code">&gt;</code> no início).</p>
+            <p style="font-family: monospace; background-color: #e0e0e0; padding: 5px; border-radius: 3px;">
+                &gt; Mover Reto 20cm<br>
+                &nbsp;&nbsp;Virar D90<br>
+                &nbsp;&nbsp;Virar E90<br>
+                &nbsp;&nbsp;... (etc.)
+            </p>
+            <ul>
+                <li><strong>Botão Cima (UP):</strong> Pressione para mover a seleção (<code class="inline-code">&gt;</code>) para o item <strong>acima</strong> na lista.</li>
+                <li><strong>Botão Baixo (DOWN):</strong> Pressione para mover a seleção (<code class="inline-code">&gt;</code>) para o item <strong>abaixo</strong> na lista.</li>
+                <li><strong>Botão Centro (CENTER):</strong> Pressione para selecionar e executar a opção destacada.</li>
+            </ul>
+
+            <h3>3. Explicando Cada Opção do Menu de Calibragem</h3>
+            <p>Após selecionar uma ação com o Botão Centro, o robô a executará. Depois, geralmente aparecerá a mensagem <code class="inline-code">Ação concluída. Pressione qualquer botão.</code>. Pressione qualquer botão do EV3 para retornar ao menu de calibragem.</p>
+
+            <h4>Opção: <code class="inline-code">Mover Reto 20cm</code></h4>
+            <ul>
+                <li><strong>O que faz:</strong> O robô tentará andar 20 centímetros para frente em linha reta.</li>
+                <li><strong>No Display (Exemplo do que pode aparecer):</strong>
+                    <p><code class="inline-code">Exec: Mover Reto 20cm</code><br>
+                       <code class="inline-code">Reto: 20 cm</code><br>
+                       <code class="inline-code">Tempo Calc: XXXms</code> (se habilitado no código)<br>
+                       <code class="inline-code">Centralizando...</code><br>
+                       <code class="inline-code">Movendo (YYYdps)</code></p>
+                </li>
+                <li><strong>Seu Objetivo na Calibragem:</strong>
+                    <ol>
+                        <li>Posicione o robô em uma superfície plana com uma marca de início clara.</li>
+                        <li>Execute a ação.</li>
+                        <li>Meça a distância real que o robô percorreu.</li>
+                        <li><strong>Ajuste no Código (se necessário):</strong> Se a distância não for 20cm, o principal parâmetro a ajustar é <code class="inline-code">DIAMETRO_RODA_TRACAO_MM</code>. Se as rodas estiverem patinando (deslizando sem mover o robô para frente), considere reduzir a <code class="inline-code">VELOCIDADE_RETA_DPS</code>.</li>
+                    </ol>
+                </li>
+            </ul>
+
+            <h4>Opções: <code class="inline-code">Virar D90</code> / <code class="inline-code">Virar E90</code> / <code class="inline-code">Virar D45</code> / <code class="inline-code">Virar E45</code></h4>
+            <ul>
+                <li><strong>O que faz:</strong> O robô tentará realizar a curva especificada (D = Direita, E = Esquerda; 90 ou 45 graus).</li>
+                <li><strong>No Display (Exemplo):</strong>
+                    <p><code class="inline-code">Exec: Virar D90</code><br>
+                       <code class="inline-code">Curva: D90</code><br>
+                       <code class="inline-code">Bussola: A.B -&gt; C.D</code><br>
+                       <code class="inline-code">T.Impulso: XXXms</code><br>
+                       <code class="inline-code">Direção: YY°</code><br>
+                       <code class="inline-code">Movendo (ZZZdps)</code><br>
+                       <code class="inline-code">Centralizando...</code></p>
+                </li>
+                <li><strong>Seu Objetivo na Calibragem:</strong>
+                    <ol>
+                        <li>Alinhe o robô com uma referência visual (uma linha no chão, por exemplo).</li>
+                        <li>Execute a curva.</li>
+                        <li>Avalie se o robô girou o ângulo correto (90° ou 45°). Use um transferidor ou compare com cantos de objetos ou linhas de referência.</li>
+                        <li><strong>Ajuste no Código (se necessário):</strong> Se a curva estiver muito "aberta" (virou menos que o esperado) ou muito "fechada" (virou mais que o esperado), ajuste as constantes no seu script para o tipo de curva específico:
+                            <ul>
+                                <li><code class="inline-code">ANGULO_VOLANTE_PARA_CURVA_90_GRAUS</code> (ou <code class="inline-code">_45_GRAUS</code>): Aumente se o robô virou pouco; diminua se virou demais.</li>
+                                <li><code class="inline-code">TEMPO_IMPULSO_CURVA_90_GRAUS_MS</code> (ou <code class="inline-code">_45_GRAUS</code>): Aumente se o robô não avança o suficiente durante a curva para completar o arco; diminua se ele avança demais.</li>
+                                <li><code class="inline-code">VELOCIDADE_CURVA_DPS</code>: Se muito alta, pode causar derrapagem. Se muito baixa, a curva pode não ser suave.</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </li>
+            </ul>
+
+            <h4>Opção: <code class="inline-code">Centralizar Direcao</code></h4>
+            <ul>
+                <li><strong>O que faz:</strong> O motor de direção se move para a posição de 0 graus (mais o valor de <code class="inline-code">AJUSTE_CENTRO_DIRECAO_GRAUS</code>).</li>
+                <li><strong>No Display:</strong>
+                    <p><code class="inline-code">Exec: Centralizar Direcao</code><br>
+                       <code class="inline-code">Centralizando...</code></p>
+                </li>
+                <li><strong>Seu Objetivo na Calibragem:</strong> Verifique se as rodas dianteiras do robô ficam perfeitamente alinhadas para frente.
+                    <ul>
+                        <li><strong>Ajuste no Código (se necessário):</strong> Se não estiverem retas, modifique o valor da constante <code class="inline-code">AJUSTE_CENTRO_DIRECAO_GRAUS</code>. Valores positivos pequenos podem ser usados se ele para um pouco para um lado, ou negativos se para o outro lado.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h4>Opções: <code class="inline-code">Angulo Dir: +10</code> / <code class="inline-code">Angulo Dir: -10</code></h4>
+            <ul>
+                <li><strong>O que faz:</strong> Gira o motor de direção em incrementos de 10 graus a partir da sua última posição de "teste de ângulo" (controlada pela variável interna <code class="inline-code">angulo_teste_direcao</code>).</li>
+                <li><strong>No Display:</strong>
+                    <p><code class="inline-code">Exec: Angulo Dir: +10</code><br>
+                       <code class="inline-code">Direção: X°</code><br>
+                       <code class="inline-code">Angulo Dir: Y</code> (Y é o novo ângulo total de teste)</p>
+                </li>
+                <li><strong>Seu Objetivo na Calibragem:</strong> Permite que você observe quanto as rodas esterçam para um determinado ângulo do motor. Isso ajuda a encontrar valores iniciais adequados para as constantes <code class="inline-code">ANGULO_VOLANTE_PARA_CURVA_..._GRAUS</code>. Anote os ângulos do motor que parecem corresponder bem a uma curva de 45° ou 90° das rodas.</li>
+            </ul>
+
+            <h4>Opção: <code class="inline-code">Resetar Estado</code></h4>
+            <ul>
+                <li><strong>O que faz:</strong> Chama a função <code class="inline-code">reset_estado_robo()</code>. Isso zera a bússola virtual, os termos do PID, a contagem de ângulo interna do motor de direção, e centraliza a direção. A variável <code class="inline-code">angulo_teste_direcao</code> também é zerada.</li>
+                <li><strong>No Display:</strong>
+                    <p><code class="inline-code">Exec: Resetar Estado</code><br>
+                       <code class="inline-code">Robô Resetado.</code></p>
+                </li>
+                <li><strong>Seu Objetivo na Calibragem:</strong> Use esta opção antes de iniciar uma nova série de testes (especialmente curvas) para garantir que o robô está partindo de um estado conhecido e consistente, sem influência de testes anteriores.</li>
+            </ul>
+
+            <h4>Opção: <code class="inline-code">Sair</code></h4>
+            <ul>
+                <li><strong>O que faz:</strong> Encerra o <code class="inline-code">programa_calibragem</code> e retorna ao menu principal do script (onde você pode optar por calibrar novamente ou iniciar o percurso completo).</li>
+                <li><strong>No Display:</strong>
+                    <p><code class="inline-code">Exec: Sair</code><br>
+                       <code class="inline-code">Saindo Calibragem</code></p>
+                </li>
+            </ul>
+
+            <h3>4. Processo Geral de Calibração</h3>
+            <p>A calibração é um ciclo de observação e ajuste:</p>
+            <ol>
+                <li><strong>Observe o Comportamento:</strong> Execute uma ação específica no modo de calibragem.</li>
+                <li><strong>Analise o Resultado:</strong> O robô fez exatamente o que você esperava? Qual foi a diferença?</li>
+                <li><strong>Ajuste no Código Python:</strong> Conecte o EV3 ao computador, abra seu arquivo <code class="inline-code">.py</code> e modifique o valor da constante relevante (ex: <code class="inline-code">ANGULO_VOLANTE_PARA_CURVA_90_GRAUS</code>, <code class="inline-code">TEMPO_IMPULSO_CURVA_45_GRAUS_MS</code>, <code class="inline-code">DIAMETRO_RODA_TRACAO_MM</code>). Faça alterações pequenas e graduais.</li>
+                <li><strong>Salve e Reexecute:</strong> Salve o arquivo Python modificado e carregue/execute-o novamente no EV3.</li>
+                <li><strong>Reteste:</strong> Volte ao modo de calibragem e teste a mesma ação para ver o efeito da sua alteração.</li>
+                <li><strong>Repita:</strong> Continue este ciclo até que os movimentos individuais do robô estejam precisos e consistentes.</li>
+            </ol>
+            <p>Lembre-se que a calibração pode ser sensível à superfície onde o robô opera e ao nível de carga da bateria do EV3. Tente manter essas condições consistentes durante a calibração e a execução do percurso.</p>
+        </section>
+			
         <section id="conclusao">
             <h2>6. Conclusão</h2>
             <p>Controlar um robô para seguir um percurso com precisão é um desafio que envolve boa montagem mecânica, programação cuidadosa e, acima de tudo, calibração paciente. Este guia e o código fornecido oferecem uma base sólida. Use o <code class="inline-code">programa_calibragem</code> extensivamente, ajuste os parâmetros de configuração e observe o comportamento do seu robô F1. Com experimentação, você poderá otimizar o desempenho dele na pista!</p>
             <p>Lembre-se que fatores como o nível da bateria e a superfície da pista podem influenciar o comportamento, então pode ser necessário recalibrar ocasionalmente.</p>
         </section>
-
+			
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
