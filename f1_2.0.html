@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia Robô F1 LEGO Mindstorms EV3 com Pybricks</title>
+    <style>
+        /* Estilos Gerais da Página */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        nav#toc {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        nav#toc h2 {
+            margin-top: 0;
+            font-size: 1.5em;
+        }
+        nav#toc ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        nav#toc ul li a {
+            text-decoration: none;
+            color: #5DADE2; /* Azul Dracula (para links do índice) */
+        }
+        nav#toc ul li a:hover {
+            text-decoration: underline;
+        }
+        section {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px dotted #ccc;
+        }
+        section:last-child {
+            border-bottom: none;
+        }
+        h2 {
+            color: #BD93F9; /* Roxo Dracula */
+            font-size: 2em;
+        }
+        h3 {
+            color: #FFB86C; /* Laranja Dracula */
+            font-size: 1.5em;
+        }
+        p, li {
+            font-size: 1.1em;
+            text-align: justify;
+        }
+        code.inline-code {
+            background-color: #282A36; /* Fundo Dracula */
+            color: #F8F8F2; /* Texto Dracula */
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        pre[class*="language-"] {
+            border-radius: 5px;
+            font-size: 0.95em;
+        }
+
+        /* CSS do Tema Dracula para Prism.js (Integrado) */
+        code[class*="language-"],pre[class*="language-"]{color:#f8f8f2;background:0 0;text-shadow:0 1px rgba(0,0,0,.3);font-family:Consolas,Monaco,'Andale Mono','Ubuntu Mono',monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}
+        pre[class*="language-"]{padding:1em;margin:.5em 0;overflow:auto;border-radius:.3em}
+        @media print{code[class*="language-"],pre[class*="language-"]{text-shadow:none}}
+        :not(pre)>code[class*="language-"],pre[class*="language-"]{background:#282a36}
+        :not(pre)>code[class*="language-"]{padding:.1em;border-radius:.3em;white-space:normal}
+        .token.cdata,.token.comment,.token.doctype,.token.prolog{color:#6272a4}
+        .token.punctuation{color:#f8f8f2}
+        .token.namespace{opacity:.7}
+        .token.constant,.token.deleted,.token.property,.token.symbol,.token.tag{color:#ff79c6}
+        .token.boolean,.token.number{color:#bd93f9}
+        .token.attr-name,.token.builtin,.token.char,.token.inserted,.token.selector,.token.string{color:#50fa7b}
+        .token.entity,.token.operator,.token.url{color:#f8f8f2} /* .token.operator cor original era #f1fa8c (amarelo), mas para combinar com outros elementos Dracula, pode ser #f8f8f2 ou #ff79c6 para destaque*/
+        .language-css .token.string,.style .token.string,.token.variable{color:#f8f8f2} /* .token.variable cor original era #f1fa8c (amarelo) */
+        .token.atrule,.token.attr-value,.token.function,.token.keyword{color:#ff79c6} /* .token.function cor original era #8be9fd (ciano) */
+        .token.class-name{color:#8be9fd} /* .token.class-name cor original era #50fa7b (verde), mas ciano é comum para classes no Dracula */
+        .token.important,.token.regex{color:#ffb86c}
+        .token.bold,.token.important{font-weight:700}
+        .token.italic{font-style:italic}
+        .token.entity{cursor:help}
+        /* Fim do CSS do Tema Dracula */
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Guia Completo: Robô F1 LEGO Mindstorms EV3 com Pybricks</h1>
+    </header>
+
+    <div class="container">
+        <nav id="toc">
+            <h2>Índice</h2>
+            <ul>
+                <li><a href="#introducao">1. Introdução</a></li>
+                <li><a href="#estrutura-codigo">2. Estrutura do Código Python</a></li>
+                <li><a href="#codigo-completo">3. O Código Python Completo</a></li>
+                <li><a href="#explicacoes-detalhadas">4. Explicações Detalhadas das Seções do Código</a>
+                    <ul>
+                        <li><a href="#explicacao-importacoes">4.1. Importações de Bibliotecas</a></li>
+                        <li><a href="#explicacao-configuracoes">4.2. Configurações e Constantes de Calibração</a></li>
+                        <li><a href="#explicacao-inicializacao">4.3. Inicialização de Objetos Globais</a></li>
+                        <li><a href="#explicacao-funcoes-auxiliares">4.4. Funções Auxiliares</a></li>
+                        <li><a href="#explicacao-pid">4.5. Função do Controlador PID</a></li>
+                        <li><a href="#explicacao-movimento">4.6. Funções Principais de Movimento</a></li>
+                        <li><a href="#explicacao-calibragem">4.7. Programa de Calibragem</a></li>
+                        <li><a href="#explicacao-percurso">4.8. Definição do Percurso</a></li>
+                        <li><a href="#explicacao-logica-principal">4.9. Lógica Principal de Execução</a></li>
+                    </ul>
+                </li>
+                <li><a href="#solucao-problemas">5. Solução de Problemas Comuns</a>
+                    <ul>
+                        <li><a href="#problema-reto">5.1. Robô não anda reto</a></li>
+                        <li><a href="#problema-curvas">5.2. Curvas não são precisas</a></li>
+                        <li><a href="#problema-direcao-errada">5.3. Robô anda na direção errada (ré)</a></li>
+                        <li><a href="#problema-motor-direcao">5.4. Motor de direção não centraliza ou vira para o lado errado</a></li>
+                        <li><a href="#problema-pid">5.5. Dicas para calibração do PID</a></li>
+                        <li><a href="#problema-display">5.6. Problemas com o display</a></li>
+                    </ul>
+                </li>
+                <li><a href="#conclusao">6. Conclusão</a></li>
+            </ul>
+        </nav>
+
+        <section id="introducao">
+            <h2>1. Introdução</h2>
+            <p>Este guia detalha um programa em MicroPython (utilizando a biblioteca Pybricks) para controlar um robô estilo Fórmula 1 construído com LEGO Mindstorms EV3. O objetivo é fazer o robô seguir um percurso pré-definido, incluindo retas e curvas de diferentes ângulos. O programa incorpora uma "bússola virtual" para rastrear a orientação desejada e um controlador PID experimental para tentar melhorar a precisão das curvas. A calibração dos diversos parâmetros é fundamental para o bom funcionamento do robô.</p>
+            <p>Este documento servirá como referência para entender o código, como ajustá-lo e como solucionar problemas comuns.</p>
+        </section>
+
+        <section id="estrutura-codigo">
+            <h2>2. Estrutura do Código Python</h2>
+            <p>O código Python fornecido é organizado em várias seções principais para facilitar o entendimento e a manutenção. A estrutura interna do script é a seguinte (conforme o índice no próprio código):</p>
+            <ol>
+                <li><strong>Importações de Bibliotecas:</strong> Módulos necessários do Pybricks.</li>
+                <li><strong>Configurações e Constantes de Calibração:</strong> Parâmetros cruciais que você precisará ajustar (portas, dimensões, velocidades, ângulos de curva, ganhos PID).</li>
+                <li><strong>Inicialização de Objetos Globais:</strong> Criação de instâncias para o EV3 Brick e motores.</li>
+                <li><strong>Funções Auxiliares:</strong> Pequenas funções para tarefas comuns (normalizar ângulos, centralizar direção, etc.).</li>
+                <li><strong>Função do Controlador PID:</strong> Lógica para o cálculo da correção PID.</li>
+                <li><strong>Funções Principais de Movimento:</strong> Comandos para mover reto e realizar curvas.</li>
+                <li><strong>Programa de Calibragem:</strong> Uma interface no EV3 para testar movimentos e ajudar na calibração.</li>
+                <li><strong>Definição do Percurso:</strong> A lista de comandos que o robô deve seguir.</li>
+                <li><strong>Lógica Principal de Execução:</strong> O ponto de entrada do programa que gerencia o menu inicial e a execução do percurso.</li>
+            </ol>
+        </section>
+		
+		<section id="modificar-percurso">
+            <h2>Como Adicionar Mais Retas ou Curvas ao Percurso</h2>
+            <p>Para adicionar mais retas ou curvas ao percurso do seu robô F1, você precisa modificar a lista chamada <code class="inline-code">percurso_f1</code> no seu código Python. Esta lista define a sequência de todos os movimentos que o robô executará.</p>
+
+            <h3>EXTRA: Localize a Seção do Percurso no Código:</h3>
+            <p>No seu arquivo Python, procure pela seção comentada como:</p>
+            <pre><code class="language-python">
+# 8. DEFINIÇÃO DO PERCURSO
+#    Cada item é uma tupla: (comando, valor)
+#    Comandos: "RETO", "D90", "E90", "D45", "E45"
+#    Para "RETO", o valor é a distância em cm. Para curvas, o valor é ignorado.
+#    VOCÊ PRECISA DEFINIR AS DISTÂNCIAS PARA OS SEGMENTOS "RETO"
+#    Exemplo: Se um "reto" tem 50cm, use ("RETO", 50)
+
+percurso_f1 = [
+    ("RETO", 50),  # Exemplo de distância, ajuste conforme sua pista
+    ("D90", None),
+    ("RETO", 40),
+    ("E90", None),
+    # ... (restante dos seus comandos de percurso) ...
+    ("D90", None),
+    ("RETO", 30)
+]
+            </code></pre>
+
+            <h3>2. Entendendo o Formato:</h3>
+            <p>Cada linha dentro dos colchetes <code class="inline-code">[...]</code> da lista <code class="inline-code">percurso_f1</code> é uma "instrução" para o robô e tem o formato de uma tupla com dois elementos: <code class="inline-code">(comando, valor)</code>.</p>
+            <ul>
+                <li><strong><code class="inline-code">comando</code></strong>: É uma string que define o tipo de movimento. Os comandos válidos são:
+                    <ul>
+                        <li><code class="inline-code">"RETO"</code>: Para mover o robô em linha reta.</li>
+                        <li><code class="inline-code">"D90"</code>: Para virar 90 graus para a direita.</li>
+                        <li><code class="inline-code">"E90"</code>: Para virar 90 graus para a esquerda.</li>
+                        <li><code class="inline-code">"D45"</code>: Para virar 45 graus para a direita.</li>
+                        <li><code class="inline-code">"E45"</code>: Para virar 45 graus para a esquerda.</li>
+                    </ul>
+                </li>
+                <li><strong><code class="inline-code">valor</code></strong>:
+                    <ul>
+                        <li>Para o comando <code class="inline-code">"RETO"</code>, este valor é a <strong>distância em centímetros</strong> que o robô deve percorrer. Por exemplo, <code class="inline-code">("RETO", 60)</code> faz o robô andar 60 cm.</li>
+                        <li>Para os comandos de curva (<code class="inline-code">"D90"</code>, <code class="inline-code">"E90"</code>, etc.), o <code class="inline-code">valor</code> é ignorado, então você pode simplesmente colocar <code class="inline-code">None</code> (como no exemplo). A magnitude da curva é definida pelos parâmetros que você calibrou (ex: <code class="inline-code">ANGULO_VOLANTE_PARA_CURVA_90_GRAUS</code> e <code class="inline-code">TEMPO_IMPULSO_CURVA_90_GRAUS_MS</code>).</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>3. Como Adicionar Novos Movimentos:</h3>
+            <p>Para adicionar mais retas ou curvas, você simplesmente adiciona novas tuplas <code class="inline-code">(comando, valor)</code> à lista <code class="inline-code">percurso_f1</code>. A ordem das tuplas na lista determina a sequência em que os movimentos serão executados.</p>
+
+            <h4>Exemplo Prático:</h4>
+            <p>Digamos que o final do seu percurso atual seja:</p>
+            <pre><code class="language-python">
+# ... (comandos anteriores) ...
+    ("RETO", 60),
+    ("D90", None),
+    ("RETO", 30)  # Este é o último comando atual
+]
+            </code></pre>
+            <p>E você quer adicionar os seguintes movimentos <strong>depois</strong> disso:</p>
+            <ol>
+                <li>Andar reto por 25 cm.</li>
+                <li>Virar 45 graus para a esquerda.</li>
+                <li>Andar reto por mais 15 cm.</li>
+            </ol>
+            <p>Você modificaria a lista <code class="inline-code">percurso_f1</code> assim:</p>
+            <pre><code class="language-python">
+# ... (comandos anteriores) ...
+    ("RETO", 60),
+    ("D90", None),
+    ("RETO", 30),  # Este era o último comando
+    ("RETO", 25),  # NOVA RETA ADICIONADA
+    ("E45", None), # NOVA CURVA DE 45° À ESQUERDA ADICIONADA
+    ("RETO", 15)   # NOVA RETA ADICIONADA
+] # Fim da lista percurso_f1
+            </code></pre>
+
+            <h3>Dicas Importantes:</h3>
+            <ul>
+                <li><strong>Vírgula no Final:</strong> Certifique-se de que cada tupla na lista (exceto possivelmente a última, embora seja uma boa prática colocar também) termine com uma vírgula <code class="inline-code">,</code> se houver mais itens depois dela.</li>
+                <li><strong>Ordem Correta:</strong> O robô executará os comandos na ordem exata em que aparecem na lista.</li>
+                <li><strong>Inserir no Meio:</strong> Você também pode inserir novos comandos no meio da lista se precisar modificar uma parte específica do percurso, não apenas adicionar ao final.</li>
+                <li><strong>Comentários:</strong> Use comentários (<code class="inline-code"># seu comentário</code>) para ajudar a lembrar por que você adicionou certos movimentos ou para descrever seções da pista.</li>
+            </ul>
+            <p>Após fazer as alterações na lista <code class="inline-code">percurso_f1</code>, salve o arquivo Python e execute-o no seu EV3. O robô seguirá o novo percurso modificado. Lembre-se sempre de testar em uma área segura!</p>
+        </section>
+
+        <section id="codigo-completo">
+            <h2>3. O Código Python Completo</h2>
+            <p>Abaixo está o código Python completo que você forneceu, com as suas últimas atualizações. Ele está formatado com destaque de sintaxe no tema Dracula.</p>
+            <pre><code class="language-python">
+#!/usr/bin/env pybricks-micropython
+
+# -----------------------------------------------------------------------------
+# ÍNDICE DO CÓDIGO
+# -----------------------------------------------------------------------------
+# 1. IMPORTAÇÕES DE BIBLIOTECAS (Linha ~30)
+# 2. CONFIGURAÇÕES E CONSTANTES DE CALIBRAÇÃO (Linha ~40)
+#    2.1. Portas dos Motores
+#    2.2. Parâmetros Físicos do Robô (Exemplos, AJUSTAR!)
+#    2.3. Parâmetros de Movimento (Velocidades, AJUSTAR!)
+#    2.4. Parâmetros de Direção (Ângulos para curvas, AJUSTAR!)
+#    2.5. Parâmetros do Controlador PID (Valores iniciais, AJUSTAR!)
+# 3. INICIALIZAÇÃO DE OBJETOS GLOBAIS (Linha ~100)
+#    3.1. EV3 Brick
+#    3.2. Motores
+#    3.3. Variáveis da Bússola Virtual e PID
+# 4. FUNÇÕES AUXILIARES (Linha ~130)
+#    4.1. normalizar_angulo_0_360(angulo)
+#    4.2. calcular_diferenca_angular(alvo, atual)
+#    4.3. centralizar_direcao(esperar_concluir=True)
+#    4.4. aplicar_angulo_direcao(angulo_volante, esperar_concluir=True)
+#    4.5. mover_motores_tracao_por_tempo(tempo_ms, velocidade_dps_tracao)
+#    4.6. parar_motores_tracao()
+#    4.7. reset_estado_robo()
+# 5. FUNÇÃO DO CONTROLADOR PID (Linha ~200)
+#    5.1. calcular_correcao_pid(erro, dt)
+# 6. FUNÇÕES PRINCIPAIS DE MOVIMENTO (Linha ~230)
+#    6.1. mover_reto(distancia_cm)
+#    6.2. virar_robo(tipo_curva)
+# 7. PROGRAMA DE CALIBRAGEM (Linha ~330)
+#    7.1. programa_calibragem()
+# 8. DEFINIÇÃO DO PERCURSO (Linha ~400)
+# 9. LÓGICA PRINCIPAL DE EXECUÇÃO (Linha ~440)
+# -----------------------------------------------------------------------------
+
+# 1. IMPORTAÇÕES DE BIBLIOTECAS
+from pybricks.hubs import EV3Brick
+from pybricks.ev3devices import Motor
+from pybricks.parameters import Port, Stop, Direction, Button
+from pybricks.tools import wait, StopWatch
+
+# 2. CONFIGURAÇÕES E CONSTANTES DE CALIBRAÇÃO
+#    Estes valores SÃO CRÍTICOS e precisarão ser ajustados por você
+#    através de testes e usando o programa_calibragem().
+
+# 2.1. Portas dos Motores (Conforme especificado)
+PORTA_MOTOR_DIRECAO = Port.B
+PORTA_MOTOR_TRACAO_ESQUERDO = Port.D
+PORTA_MOTOR_TRACAO_DIREITO = Port.C
+
+# 2.2. Parâmetros Físicos do Robô (EXEMPLOS - MEÇA E AJUSTE!)
+DIAMETRO_RODA_TRACAO_MM = 43.2  # Diâmetro da roda de tração em milímetros
+DISTANCIA_ENTRE_EIXOS_MM = 285 # Distância entre o eixo dianteiro e traseiro.
+                              # Importante para estimar raios de curva, mas aqui focamos em tempos.
+AJUSTE_CENTRO_DIRECAO_GRAUS = 0 # Se o motor de direção não centraliza em 0, use este ajuste.
+
+# 2.3. Parâmetros de Movimento (AJUSTAR!)
+VELOCIDADE_RETA_DPS = 720       # Velocidade dos motores de tração em graus por segundo para retas
+VELOCIDADE_CURVA_DPS = 360      # Velocidade reduzida dos motores de tração para curvas
+VELOCIDADE_MOTOR_DIRECAO_DPS = 500 # Velocidade do motor de direção
+
+# 2.4. Parâmetros de Direção (CRUCIAL - AJUSTAR POR OBSERVAÇÃO!)
+#    Estes são os ângulos que o *motor de direção* (Porta B) deve atingir.
+#    E o tempo que os motores de tração devem ser acionados para completar a curva.
+ANGULO_VOLANTE_PARA_CURVA_90_GRAUS = 45  # Ângulo do motor de direção para uma curva de ~90° do robô
+TEMPO_IMPULSO_CURVA_90_GRAUS_MS = 1200 # Tempo (ms) de acionamento dos motores de tração para curva de 90°
+
+ANGULO_VOLANTE_PARA_CURVA_45_GRAUS = 25  # Ângulo do motor de direção para uma curva de ~45° do robô
+TEMPO_IMPULSO_CURVA_45_GRAUS_MS = 800  # Tempo (ms) de acionamento dos motores de tração para curva de 45°
+
+# 2.5. Parâmetros do Controlador PID (Valores iniciais, AJUSTAR!)
+#    Estes ganhos afetam como o PID tenta corrigir os ângulos de virada.
+#    Kp: Ganho Proporcional - Reage ao erro atual.
+#    Ki: Ganho Integral - Acumula erros passados para corrigir desvios persistentes.
+#    Kd: Ganho Derivativo - Antecipa erros futuros baseado na taxa de mudança do erro.
+#    A sintonia do PID é experimental. Comece com Ki e Kd = 0 e ajuste Kp.
+KP = 0.2  # Exemplo
+KI = 0.01 # Exemplo
+KD = 0.1  # Exemplo
+
+# 3. INICIALIZAÇÃO DE OBJETOS GLOBAIS
+
+# 3.1. EV3 Brick
+ev3 = EV3Brick()
+
+# 3.2. Motores
+# Motor de Direção: Controla o ângulo das rodas dianteiras.
+# Assumimos que o motor está montado de forma que um ângulo positivo vira para um lado (ex: direita)
+# e negativo para o outro (ex: esquerda). Verifique a orientação da sua montagem.
+motor_direcao = Motor(PORTA_MOTOR_DIRECAO, Direction.CLOCKWISE) # Direction pode precisar ser COUNTERCLOCKWISE
+
+# Motores de Tração: Controlam as rodas traseiras.
+# Devem girar na mesma direção para mover para frente.
+motor_tracao_esquerdo = Motor(PORTA_MOTOR_TRACAO_ESQUERDO, Direction.COUNTERCLOCKWISE)
+motor_tracao_direito = Motor(PORTA_MOTOR_TRACAO_DIREITO, Direction.COUNTERCLOCKWISE)
+
+# 3.3. Variáveis da Bússola Virtual e PID
+bussola_virtual_atual_graus = 0.0  # Orientação inicial do robô (0 = Norte)
+erro_integral_pid = 0.0            # Termo integral acumulado do PID
+erro_anterior_pid = 0.0            # Último erro calculado para o termo derivativo
+cronometro_pid = StopWatch()       # Para calcular o dt (delta tempo) para o PID
+
+# 4. FUNÇÕES AUXILIARES
+
+def normalizar_angulo_0_360(angulo):
+    """Normaliza um ângulo para o intervalo [0, 360)."""
+    return angulo % 360
+
+def calcular_diferenca_angular(alvo_graus, atual_graus):
+    """Calcula a menor diferença angular entre dois ângulos (-180 a +180)."""
+    diferenca = (alvo_graus - atual_graus + 180) % 360 - 180
+    return diferenca
+
+def centralizar_direcao(esperar_concluir=True):
+    """Centraliza o motor de direção."""
+    ev3.screen.print("Centralizando...")
+    motor_direcao.run_target(VELOCIDADE_MOTOR_DIRECAO_DPS,
+                             AJUSTE_CENTRO_DIRECAO_GRAUS,
+                             then=Stop.HOLD,
+                             wait=esperar_concluir)
+    if esperar_concluir: # Garante que parou se wait=False for usado em algum momento
+        motor_direcao.stop() # Para garantir que não continue tentando se já estiver lá.
+        motor_direcao.hold() # Mantém a posição
+
+def aplicar_angulo_direcao(angulo_volante, esperar_concluir=True):
+    """Aplica um ângulo ao motor de direção."""
+    angulo_alvo_real = angulo_volante + AJUSTE_CENTRO_DIRECAO_GRAUS
+    # Limitar o ângulo para evitar danos mecânicos (ajuste conforme sua montagem)
+    # angulo_alvo_real = max(-ANGULO_MAX_MOTOR_DIRECAO, min(ANGULO_MAX_MOTOR_DIRECAO, angulo_alvo_real))
+    ev3.screen.print("Direção: {}°".format(angulo_volante))
+    motor_direcao.run_target(VELOCIDADE_MOTOR_DIRECAO_DPS,
+                             angulo_alvo_real,
+                             then=Stop.HOLD,
+                             wait=esperar_concluir)
+    if esperar_concluir:
+        motor_direcao.stop()
+        motor_direcao.hold()
+
+
+def mover_motores_tracao_por_tempo(tempo_ms, velocidade_dps_tracao):
+    """Aciona os motores de tração por um tempo determinado."""
+    ev3.screen.print("Movendo ({}dps)".format(velocidade_dps_tracao))
+    motor_tracao_esquerdo.run(velocidade_dps_tracao)
+    motor_tracao_direito.run(velocidade_dps_tracao)
+    wait(tempo_ms)
+    parar_motores_tracao()
+
+def parar_motores_tracao():
+    """Para os motores de tração."""
+    motor_tracao_esquerdo.stop() # Usar Stop.BRAKE se quiser uma parada mais abrupta
+    motor_tracao_direito.stop()  # Usar Stop.COAST para uma parada suave
+
+def reset_estado_robo():
+    """Reseta a bússola virtual, PID e centraliza a direção."""
+    global bussola_virtual_atual_graus, erro_integral_pid, erro_anterior_pid
+    bussola_virtual_atual_graus = 0.0
+    erro_integral_pid = 0.0
+    erro_anterior_pid = 0.0
+    cronometro_pid.reset()
+    motor_direcao.reset_angle(0) # Reseta o ângulo do motor de direção para referência
+    centralizar_direcao()
+    ev3.screen.clear()
+    ev3.screen.print("Robô Resetado.")
+    wait(1000)
+
+# 5. FUNÇÃO DO CONTROLADOR PID
+
+def calcular_correcao_pid(erro):
+    """Calcula a correção PID.
+    O 'erro' é a diferença entre o ângulo alvo da bússola e o ângulo atual da bússola
+    antes da atualização para o novo alvo.
+    Esta correção pode ser usada para ajustar o tempo de impulso da curva ou o ângulo do volante.
+    """
+    global erro_integral_pid, erro_anterior_pid
+
+    dt_s = cronometro_pid.time() / 1000.0 # Delta tempo em segundos
+    cronometro_pid.reset() # Reinicia para a próxima chamada
+
+    if dt_s == 0: # Evita divisão por zero no primeiro cálculo ou se o tempo for muito rápido
+        dt_s = 0.01 # Um pequeno valor default
+
+    # Termo Proporcional
+    termo_p = KP * erro
+
+    # Termo Integral
+    erro_integral_pid += erro * dt_s
+    termo_i = KI * erro_integral_pid
+    # Anti-windup (opcional, mas bom): Limita o termo integral para evitar saturação
+    # if termo_i > MAX_INTEGRAL: termo_i = MAX_INTEGRAL
+    # if termo_i < -MAX_INTEGRAL: termo_i = -MAX_INTEGRAL
+
+    # Termo Derivativo
+    derivada_erro = (erro - erro_anterior_pid) / dt_s
+    termo_d = KD * derivada_erro
+    erro_anterior_pid = erro
+
+    correcao = termo_p + termo_i + termo_d
+    ev3.screen.print("PID: E={:.1f} C={:.1f}".format(erro, correcao))
+    return correcao
+
+# 6. FUNÇÕES PRINCIPAIS DE MOVIMENTO
+
+def mover_reto(distancia_cm):
+    """Move o robô para frente por uma distância aproximada em cm."""
+    ev3.screen.clear()
+    ev3.screen.print("Reto: {} cm".format(distancia_cm))
+    centralizar_direcao(esperar_concluir=True) # Garante que a direção está reta
+
+    # Cálculo do tempo de acionamento baseado na distância e velocidade
+    # Circunferência da roda = PI * diametro
+    # Rotações para distância = distancia_cm * 10 / (3.14159 * DIAMETRO_RODA_TRACAO_MM)
+    # Graus a girar = Rotações * 360
+    # Tempo_ms = (Graus a girar / VELOCIDADE_RETA_DPS) * 1000
+    if VELOCIDADE_RETA_DPS == 0:
+        ev3.screen.print("Velocidade reta é 0!")
+        return
+
+    # Correção: O comentário acima tinha Math.PI, mas MicroPython usa 3.14159 diretamente ou math.pi se importado
+    if DIAMETRO_RODA_TRACAO_MM == 0:
+        ev3.screen.print("Diametro roda é 0!")
+        return
+        
+    circunferencia_roda_mm = 3.14159 * DIAMETRO_RODA_TRACAO_MM
+    graus_para_girar = (distancia_cm * 10 / circunferencia_roda_mm) * 360.0 # Use float para precisão
+    tempo_necessario_ms = (graus_para_girar / VELOCIDADE_RETA_DPS) * 1000.0 # Use float para precisão
+
+    mover_motores_tracao_por_tempo(int(tempo_necessario_ms), VELOCIDADE_RETA_DPS)
+    wait(100) # Pequena pausa
+
+def virar_robo(tipo_curva):
+    """Executa uma virada (D90, E90, D45, E45).
+    'tipo_curva' é uma string como "D90", "E45", etc.
+    """
+    global bussola_virtual_atual_graus
+
+    ev3.screen.clear()
+    ev3.screen.print("Curva: {}".format(tipo_curva))
+
+    angulo_nominal_virada = 0
+    angulo_volante_calibrado = 0
+    tempo_impulso_calibrado_ms = 0
+    direcao_fator = 1 # 1 para direita, -1 para esquerda
+
+    if tipo_curva == "D90": # Direita 90°
+        angulo_nominal_virada = 90
+        angulo_volante_calibrado = ANGULO_VOLANTE_PARA_CURVA_90_GRAUS
+        tempo_impulso_calibrado_ms = TEMPO_IMPULSO_CURVA_90_GRAUS_MS
+        direcao_fator = 1
+    elif tipo_curva == "E90": # Esquerda 90°
+        angulo_nominal_virada = 90
+        angulo_volante_calibrado = -ANGULO_VOLANTE_PARA_CURVA_90_GRAUS # Negativo para esquerda
+        tempo_impulso_calibrado_ms = TEMPO_IMPULSO_CURVA_90_GRAUS_MS
+        direcao_fator = -1
+    elif tipo_curva == "D45": # Direita 45°
+        angulo_nominal_virada = 45
+        angulo_volante_calibrado = ANGULO_VOLANTE_PARA_CURVA_45_GRAUS
+        tempo_impulso_calibrado_ms = TEMPO_IMPULSO_CURVA_45_GRAUS_MS
+        direcao_fator = 1
+    elif tipo_curva == "E45": # Esquerda 45°
+        angulo_nominal_virada = 45
+        angulo_volante_calibrado = -ANGULO_VOLANTE_PARA_CURVA_45_GRAUS # Negativo para esquerda
+        tempo_impulso_calibrado_ms = TEMPO_IMPULSO_CURVA_45_GRAUS_MS
+        direcao_fator = -1
+    else:
+        ev3.screen.print("Tipo de curva inválido!")
+        return
+
+    bussola_alvo_graus = normalizar_angulo_0_360(bussola_virtual_atual_graus + (angulo_nominal_virada * direcao_fator))
+    erro_bussola_graus = calcular_diferenca_angular(bussola_alvo_graus, bussola_virtual_atual_graus)
+
+    # Calcula a correção PID.
+    # A correção PID pode ser usada para ajustar o 'tempo_impulso_calibrado_ms' ou 'angulo_volante_calibrado'.
+    # Exemplo: ajustando o tempo de impulso. Uma correção positiva aumenta o tempo.
+    # Este é um ponto que requer experimentação para ver o que funciona melhor.
+    correcao_pid = calcular_correcao_pid(erro_bussola_graus)
+
+    # Aplicar a correção PID ao tempo de impulso (exemplo)
+    # Um fator de 0.1 significa que uma correção de 10 graus PID adicionaria 1 ms ao tempo por grau de erro.
+    # Isso precisa ser MUITO bem calibrado.
+    ajuste_tempo_impulso_ms = int(correcao_pid * 5) # Ex: 5ms por grau de correção PID
+    tempo_impulso_final_ms = tempo_impulso_calibrado_ms + ajuste_tempo_impulso_ms
+
+    # Limitar o tempo de impulso para evitar valores extremos
+    tempo_impulso_final_ms = max(100, min(tempo_impulso_final_ms, tempo_impulso_calibrado_ms * 2))
+
+    ev3.screen.print("Bussola: {:.1f} -> {:.1f}".format(bussola_virtual_atual_graus, bussola_alvo_graus))
+    ev3.screen.print("T.Impulso: {}ms".format(tempo_impulso_final_ms))
+
+    # Executar a virada
+    aplicar_angulo_direcao(angulo_volante_calibrado, esperar_concluir=True)
+    mover_motores_tracao_por_tempo(tempo_impulso_final_ms, VELOCIDADE_CURVA_DPS)
+    centralizar_direcao(esperar_concluir=True)
+
+    # Atualiza a bússola virtual para o ângulo alvo.
+    # A premissa é que o PID ajudou o robô a alcançar este ângulo mais precisamente.
+    bussola_virtual_atual_graus = bussola_alvo_graus
+    wait(100) # Pequena pausa
+
+# 7. PROGRAMA DE CALIBRAGEM
+def programa_calibragem():
+    """Permite testar movimentos individuais para calibrar as constantes."""
+    ev3.screen.clear()
+    ev3.screen.print(" ") # <--- LINHA ADICIONADA AQUI para deslocar o menu para baixo (Global)
+    ev3.screen.print("CALIBRAGEM")
+    ev3.screen.print("Use botões Up/Down")
+    ev3.screen.print("Center para selecionar")
+    wait(2000)
+
+    opcoes = [
+        "Mover Reto 20cm",
+        "Virar D90", "Virar E90",
+        "Virar D45", "Virar E45",
+        "Centralizar Direcao",
+        "Angulo Dir: +10", "Angulo Dir: -10",
+        "Resetar Estado",
+        "Sair"
+    ]
+    selecionado = 0
+    angulo_teste_direcao = 0
+
+    while True:
+        ev3.screen.clear()
+        ev3.screen.print(" ") # <--- LINHA ADICIONADA AQUI para deslocar o menu para baixo
+        for i, opcao in enumerate(opcoes):
+            prefix = "> " if i == selecionado else "  "
+            ev3.screen.print(prefix + opcao)
+
+        # Ler botões
+        botoes_pressionados = []
+        while not botoes_pressionados: # Espera um botão ser pressionado
+            botoes_pressionados = ev3.buttons.pressed()
+            wait(10) # Evita uso excessivo de CPU
+
+        if Button.UP in botoes_pressionados:
+            selecionado = (selecionado - 1 + len(opcoes)) % len(opcoes)
+        elif Button.DOWN in botoes_pressionados:
+            selecionado = (selecionado + 1) % len(opcoes)
+        elif Button.CENTER in botoes_pressionados:
+            ev3.screen.clear()
+            ev3.screen.print(" ") # <--- LINHA ADICIONADA AQUI para deslocar o menu para baixo
+            acao = opcoes[selecionado]
+            ev3.screen.print("Exec: " + acao)
+            wait(500)
+
+            if acao == "Mover Reto 20cm":
+                mover_reto(20)
+            elif acao == "Virar D90":
+                virar_robo("D90")
+            elif acao == "Virar E90":
+                virar_robo("E90")
+            elif acao == "Virar D45":
+                virar_robo("D45")
+            elif acao == "Virar E45":
+                virar_robo("E45")
+            elif acao == "Centralizar Direcao":
+                centralizar_direcao()
+            elif acao == "Angulo Dir: +10":
+                angulo_teste_direcao += 10
+                aplicar_angulo_direcao(angulo_teste_direcao)
+                ev3.screen.print("Angulo Dir: {}".format(angulo_teste_direcao))
+            elif acao == "Angulo Dir: -10":
+                angulo_teste_direcao -= 10
+                aplicar_angulo_direcao(angulo_teste_direcao)
+                ev3.screen.print("Angulo Dir: {}".format(angulo_teste_direcao))
+            elif acao == "Resetar Estado":
+                reset_estado_robo()
+                angulo_teste_direcao = 0 # Reseta também o ângulo de teste da direção
+            elif acao == "Sair":
+                ev3.screen.clear()
+                ev3.screen.print("Saindo Calibragem")
+                wait(1000)
+                return
+            # Adicionar um wait aqui pode ser útil para ver a última mensagem da ação
+            # antes do menu ser redesenhado.
+            ev3.screen.print("Ação concluída. Pressione qualquer botão.")
+            # Esperar um clique para voltar ao menu de calibragem
+            while not ev3.buttons.pressed():
+                 wait(10)
+            while any(b in ev3.buttons.pressed() for b in ev3.buttons.pressed()): # Debounce
+                 wait(10)
+
+
+        # Debounce: espera soltar o botão (se não for o CENTER que já tem tratamento pós ação)
+        if Button.CENTER not in botoes_pressionados:
+            while any(b in ev3.buttons.pressed() for b in [Button.UP, Button.DOWN]):
+                wait(10)
+
+# 8. DEFINIÇÃO DO PERCURSO
+#    Cada item é uma tupla: (comando, valor)
+#    Comandos: "RETO", "D90", "E90", "D45", "E45"
+#    Para "RETO", o valor é a distância em cm. Para curvas, o valor é ignorado.
+#    VOCÊ PRECISA DEFINIR AS DISTÂNCIAS PARA OS SEGMENTOS "RETO"
+#    Exemplo: Se um "reto" tem 50cm, use ("RETO", 50)
+
+percurso_f1 = [
+    ("RETO", 50),  # Exemplo de distância, ajuste conforme sua pista
+    ("D90", None),
+    ("RETO", 40),
+    ("E90", None),
+    ("RETO", 30),
+    ("E90", None),
+    ("RETO", 40),
+    ("D90", None),
+    ("RETO", 50),
+    ("D45", None),
+    ("RETO", 30),
+    ("E45", None),
+    ("RETO", 30),
+    ("E45", None),
+    ("D90", None),
+    ("D90", None),
+    ("D45", None),
+    ("RETO", 40),
+    ("E90", None),
+    ("RETO", 30),
+    ("E90", None),
+    ("RETO", 50),
+    ("D90", None),
+    ("D90", None),
+    ("RETO", 40),
+    ("E90", None),
+    ("E90", None),
+    ("RETO", 60), # Segmento final mais longo
+    ("D90", None),
+    ("RETO", 30)
+]
+
+# 9. LÓGICA PRINCIPAL DE EXECUÇÃO
+if __name__ == "__main__":
+    ev3.speaker.beep()
+    reset_estado_robo() # Garante um estado inicial limpo
+
+    ev3.screen.clear()
+    ev3.screen.print(" ") # <--- LINHA ADICIONADA AQUI para deslocar o menu para baixo
+    ev3.screen.print("Pronto!")
+    ev3.screen.print("Esq: Calibrar")
+    ev3.screen.print("Dir: Iniciar Percurso")
+
+    aguardando_escolha = True
+    while aguardando_escolha:
+        botoes = ev3.buttons.pressed()
+        if Button.LEFT in botoes:
+            programa_calibragem()
+            # Após calibragem, volta para este menu
+            ev3.screen.clear()
+            ev3.screen.print(" ") # <--- LINHA ADICIONADA AQUI também
+            ev3.screen.print("Pronto!")
+            ev3.screen.print("Esq: Calibrar")
+            ev3.screen.print("Dir: Iniciar Percurso")
+            # Debounce
+            while Button.LEFT in ev3.buttons.pressed(): wait(10)
+        elif Button.RIGHT in botoes:
+            aguardando_escolha = False
+            # Debounce
+            while Button.RIGHT in ev3.buttons.pressed(): wait(10)
+        wait(50)
+
+    ev3.screen.clear()
+    ev3.screen.print(" ") # <--- LINHA ADICIONADA AQUI para deslocar
+    ev3.screen.print("Iniciando percurso...")
+    wait(1000)
+
+    for i, (comando, valor) in enumerate(percurso_f1):
+        ev3.screen.clear()
+        # As duas linhas abaixo deslocam o conteúdo em duas linhas.
+        # Se quiser deslocar apenas uma linha, remova uma delas.
+        ev3.screen.print(" ") 
+        ev3.screen.print(" ") 
+        ev3.screen.print("Passo {}/{}".format(i+1, len(percurso_f1)))
+        ev3.screen.print("Bussola: {:.1f}".format(bussola_virtual_atual_graus))
+
+        if comando == "RETO":
+            if isinstance(valor, (int, float)) and valor > 0:
+                mover_reto(valor)
+            else:
+                ev3.screen.print("Distancia RETO invalida!")
+                wait(1000)
+        elif comando in ["D90", "E90", "D45", "E45"]:
+            virar_robo(comando)
+        else:
+            ev3.screen.print("Comando invalido!")
+            wait(1000)
+
+        ev3.speaker.beep(frequency=800, duration=100) # Beep curto entre os passos
+        wait(200) # Pequena pausa para observar
+
+    ev3.screen.clear()
+    ev3.screen.print("Percurso Concluído!")
+    ev3.speaker.play_notes(['C4/4', 'G4/4', 'C5/4']) # Melodia de fim
+    wait(3000)
+
+            </code></pre>
+        </section>
+
+        <section id="explicacoes-detalhadas">
+            <h2>4. Explicações Detalhadas das Seções do Código</h2>
+
+            <article id="explicacao-importacoes">
+                <h3>4.1. Importações de Bibliotecas</h3>
+                <p>Esta seção importa todas as classes e funções necessárias da biblioteca Pybricks:</p>
+                <ul>
+                    <li><code class="inline-code">EV3Brick</code>: Para interagir com os recursos do bloco EV3 (tela, botões, som).</li>
+                    <li><code class="inline-code">Motor</code>: Para controlar os motores.</li>
+                    <li><code class="inline-code">Port</code>: Para especificar as portas onde os motores e sensores estão conectados.</li>
+                    <li><code class="inline-code">Stop</code>: Define como os motores devem parar (frear, soltar, manter posição).</li>
+                    <li><code class="inline-code">Direction</code>: Define a direção "positiva" de rotação do motor (horário ou anti-horário).</li>
+                    <li><code class="inline-code">Button</code>: Para identificar quais botões do EV3 estão pressionados.</li>
+                    <li><code class="inline-code">wait</code>: Para pausar a execução do programa.</li>
+                    <li><code class="inline-code">StopWatch</code>: Para medir intervalos de tempo, usado no cálculo do PID.</li>
+                </ul>
+            </article>
+
+            <article id="explicacao-configuracoes">
+                <h3>4.2. Configurações e Constantes de Calibração</h3>
+                <p>Esta é uma das partes mais importantes para o ajuste fino do seu robô. Todos os valores aqui provavelmente precisarão ser modificados com base na construção física do seu robô e nos testes realizados.</p>
+                <ul>
+                    <li><strong>Portas dos Motores:</strong> <code class="inline-code">PORTA_MOTOR_DIRECAO</code>, <code class="inline-code">PORTA_MOTOR_TRACAO_ESQUERDO</code>, <code class="inline-code">PORTA_MOTOR_TRACAO_DIREITO</code>. Defina corretamente as portas B, C, D conforme sua montagem.</li>
+                    <li><strong>Parâmetros Físicos:</strong>
+                        <ul>
+                            <li><code class="inline-code">DIAMETRO_RODA_TRACAO_MM</code>: Você atualizou para <strong>43.2 mm</strong>. Essencial para o cálculo de distância na função <code class="inline-code">mover_reto</code>. Meça o diâmetro total da sua roda com pneu.</li>
+                            <li><code class="inline-code">DISTANCIA_ENTRE_EIXOS_MM</code>: Você atualizou para <strong>200 mm</strong> (20 cm). É a distância entre o centro do eixo das rodas dianteiras e o centro do eixo das rodas traseiras. Embora não usado diretamente nos cálculos de curva atuais (que são baseados em tempo), é um bom parâmetro para documentar.</li>
+                            <li><code class="inline-code">AJUSTE_CENTRO_DIRECAO_GRAUS</code>: Se o motor de direção não fica perfeitamente alinhado para frente quando comandado para 0 graus, use este valor para compensar (positivo ou negativo).</li>
+                        </ul>
+                    </li>
+                    <li><strong>Parâmetros de Movimento:</strong>
+                        <ul>
+                            <li><code class="inline-code">VELOCIDADE_RETA_DPS</code>: Velocidade dos motores de tração em graus por segundo para movimentos em linha reta. Valores maiores significam mais rápido.</li>
+                            <li><code class="inline-code">VELOCIDADE_CURVA_DPS</code>: Velocidade reduzida dos motores de tração durante as curvas. Geralmente menor que a velocidade em reta para maior precisão e para evitar derrapagens.</li>
+                            <li><code class="inline-code">VELOCIDADE_MOTOR_DIRECAO_DPS</code>: Velocidade com que o motor de direção gira para atingir o ângulo desejado.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Parâmetros de Direção (CRUCIAL PARA CALIBRAR):</strong>
+                        <ul>
+                            <li><code class="inline-code">ANGULO_VOLANTE_PARA_CURVA_90_GRAUS</code>: Quantos graus o motor de direção (Porta B) deve girar para que o robô faça uma curva de aproximadamente 90 graus.</li>
+                            <li><code class="inline-code">TEMPO_IMPULSO_CURVA_90_GRAUS_MS</code>: Por quanto tempo (em milissegundos) os motores de tração devem ser acionados (na <code class="inline-code">VELOCIDADE_CURVA_DPS</code>) enquanto o volante está esterçado para completar a curva de 90 graus.</li>
+                            <li>Valores análogos para curvas de 45 graus (<code class="inline-code">ANGULO_VOLANTE_PARA_CURVA_45_GRAUS</code>, <code class="inline-code">TEMPO_IMPULSO_CURVA_45_GRAUS_MS</code>).</li>
+                            <li><strong>Observação:</strong> Estes valores são interdependentes e devem ser ajustados em conjunto usando o <code class="inline-code">programa_calibragem</code>.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Parâmetros do Controlador PID:</strong>
+                        <ul>
+                            <li><code class="inline-code">KP</code>, <code class="inline-code">KI</code>, <code class="inline-code">KD</code>: Ganhos do controlador Proporcional, Integral e Derivativo. Usados para tentar ajustar o <code class="inline-code">tempo_impulso_final_ms</code> nas curvas e melhorar a precisão. A sintonia é experimental. Comece com <code class="inline-code">KI</code> e <code class="inline-code">KD</code> em 0 e ajuste <code class="inline-code">KP</code>.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </article>
+
+            <article id="explicacao-inicializacao">
+                <h3>4.3. Inicialização de Objetos Globais</h3>
+                <ul>
+                    <li><code class="inline-code">ev3 = EV3Brick()</code>: Cria o objeto principal para interagir com o EV3.</li>
+                    <li><strong>Motores:</strong>
+                        <ul>
+                            <li><code class="inline-code">motor_direcao</code>: Configurado para a porta B. O parâmetro <code class="inline-code">Direction.CLOCKWISE</code> indica que um comando de velocidade positiva fará o motor girar no sentido horário. Se a direção virar para o lado errado, você pode mudar para <code class="inline-code">Direction.COUNTERCLOCKWISE</code>.</li>
+                            <li><code class="inline-code">motor_tracao_esquerdo</code> e <code class="inline-code">motor_tracao_direito</code>: Configurados para as portas D e C. Você os configurou para <code class="inline-code">Direction.COUNTERCLOCKWISE</code>. É crucial que essas direções, combinadas com a montagem física, resultem em movimento para frente quando uma velocidade positiva é aplicada a ambos. Se o robô andar de ré, ajuste essas direções (geralmente uma será <code class="inline-code">CLOCKWISE</code> e a outra <code class="inline-code">COUNTERCLOCKWISE</code> se montados de forma espelhada, ou ambas iguais se montados na mesma orientação).</li>
+                        </ul>
+                    </li>
+                    <li><strong>Variáveis da Bússola Virtual e PID:</strong>
+                        <ul>
+                            <li><code class="inline-code">bussola_virtual_atual_graus</code>: Armazena a orientação teórica do robô. Começa em 0 (Norte). Direita aumenta o ângulo, esquerda diminui.</li>
+                            <li><code class="inline-code">erro_integral_pid</code>, <code class="inline-code">erro_anterior_pid</code>: Usados nos cálculos do PID.</li>
+                            <li><code class="inline-code">cronometro_pid</code>: Mede o tempo entre os cálculos do PID (dt).</li>
+                        </ul>
+                    </li>
+                </ul>
+            </article>
+
+            <article id="explicacao-funcoes-auxiliares">
+                <h3>4.4. Funções Auxiliares</h3>
+                <ul>
+                    <li><code class="inline-code">normalizar_angulo_0_360(angulo)</code>: Garante que um ângulo esteja sempre entre 0 e 359.99... graus.</li>
+                    <li><code class="inline-code">calcular_diferenca_angular(alvo_graus, atual_graus)</code>: Calcula o menor caminho angular (com sinal positivo ou negativo) entre dois ângulos. Ex: de 350° para 10° é +20°, não -340°.</li>
+                    <li><code class="inline-code">centralizar_direcao(...)</code>: Move o motor de direção para a posição 0 (mais <code class="inline-code">AJUSTE_CENTRO_DIRECAO_GRAUS</code>) e o mantém lá (<code class="inline-code">Stop.HOLD</code>).</li>
+                    <li><code class="inline-code">aplicar_angulo_direcao(...)</code>: Gira o motor de direção para o ângulo de volante especificado.</li>
+                    <li><code class="inline-code">mover_motores_tracao_por_tempo(...)</code>: Aciona ambos os motores de tração com uma velocidade e por um tempo definidos, depois para.</li>
+                    <li><code class="inline-code">parar_motores_tracao()</code>: Para os motores de tração. <code class="inline-code">Stop.BRAKE</code> (não usado aqui, mas comentado) daria uma parada mais abrupta, <code class="inline-code">Stop.COAST</code> (implícito se <code class="inline-code">then=Stop.COAST</code> fosse usado em <code class="inline-code">run_time</code> ou <code class="inline-code">run_target</code>) ou <code class="inline-code">stop()</code> sem argumento deixa os motores "soltos". O <code class="inline-code">stop()</code> padrão é geralmente <code class="inline-code">Stop.COAST</code> para <code class="inline-code">run</code>, e <code class="inline-code">Stop.BRAKE</code> ou <code class="inline-code">Stop.HOLD</code> para métodos baseados em alvo. No seu código, <code class="inline-code">stop()</code> após <code class="inline-code">run()</code> provavelmente resultará em <code class="inline-code">Stop.COAST</code>.</li>
+                    <li><code class="inline-code">reset_estado_robo()</code>: Coloca o robô em um estado inicial conhecido: bússola em 0, PID resetado, direção centralizada e tela limpa.</li>
+                </ul>
+            </article>
+
+            <article id="explicacao-pid">
+                <h3>4.5. Função do Controlador PID (<code class="inline-code">calcular_correcao_pid</code>)</h3>
+                <p>O PID (Proporcional-Integral-Derivativo) é um mecanismo de controle que tenta minimizar o erro entre um valor desejado (setpoint) e um valor medido.</p>
+                <p>Neste código:</p>
+                <ul>
+                    <li>O "erro" é a <code class="inline-code">erro_bussola_graus</code>: a diferença entre para onde o robô <em>deveria</em> apontar após uma curva e para onde ele <em>estava</em> apontando antes.</li>
+                    <li><code class="inline-code">dt_s</code>: É o tempo decorrido desde a última vez que o PID foi calculado. Importante para os termos Integral e Derivativo.</li>
+                    <li><strong>Termo Proporcional (P):</strong> Reage ao erro atual. Quanto maior o erro, maior a correção. <code class="inline-code">KP</code> é o ganho.</li>
+                    <li><strong>Termo Integral (I):</strong> Acumula os erros ao longo do tempo. Ajuda a corrigir erros pequenos mas persistentes que o termo P sozinho não consegue eliminar. <code class="inline-code">KI</code> é o ganho. Um <code class="inline-code">erro_integral_pid</code> muito grande pode levar a instabilidade ("windup").</li>
+                    <li><strong>Termo Derivativo (D):</strong> Tenta antecipar o erro futuro observando a taxa de variação do erro atual. Ajuda a amortecer oscilações e a estabilizar o sistema. <code class="inline-code">KD</code> é o ganho.</li>
+                    <li>A <code class="inline-code">correcao</code>_pid é a soma desses três termos. No seu código, essa correção é usada para ajustar o <code class="inline-code">tempo_impulso_final_ms</code> da curva: <code class="inline-code">ajuste_tempo_impulso_ms = int(correcao_pid * 5)</code>. O fator `5` é experimental e pode precisar de ajuste.</li>
+                </ul>
+                <p><strong>Importante:</strong> Sem um sensor real de feedback (como um giroscópio) para medir o quanto o robô <em>realmente</em> virou, este PID está operando de forma mais "conceitual". Ele ajusta o comando da curva baseado na diferença entre o estado desejado anterior e o novo estado desejado da bússola virtual. A eficácia dependerá muito da consistência mecânica do robô e da calibração dos ganhos PID e dos parâmetros de curva.</p>
+            </article>
+
+            <article id="explicacao-movimento">
+                <h3>4.6. Funções Principais de Movimento</h3>
+                <ul>
+                    <li><code class="inline-code">mover_reto(distancia_cm)</code>:
+                        <ul>
+                            <li>Centraliza a direção.</li>
+                            <li>Calcula o tempo que os motores de tração precisam rodar para cobrir a <code class="inline-code">distancia_cm</code>. Isso usa o <code class="inline-code">DIAMETRO_RODA_TRACAO_MM</code> e a <code class="inline-code">VELOCIDADE_RETA_DPS</code>. Certifique-se que o diâmetro da roda está correto no código (você ajustou para 43.2 mm).</li>
+                            <li>Aciona os motores e espera o tempo calculado.</li>
+                            <li>Você adicionou verificações para <code class="inline-code">VELOCIDADE_RETA_DPS == 0</code> e <code class="inline-code">DIAMETRO_RODA_TRACAO_MM == 0</code>, o que é uma boa prática.</li>
+                        </ul>
+                    </li>
+                    <li><code class="inline-code">virar_robo(tipo_curva)</code>:
+                        <ul>
+                            <li>Determina os parâmetros base da curva (<code class="inline-code">angulo_nominal_virada</code>, <code class="inline-code">angulo_volante_calibrado</code>, <code class="inline-code">tempo_impulso_calibrado_ms</code>) com base no <code class="inline-code">tipo_curva</code> ("D90", "E45", etc.).</li>
+                            <li>Calcula o ângulo alvo da bússola virtual e o erro em relação ao ângulo atual.</li>
+                            <li>Chama <code class="inline-code">calcular_correcao_pid</code> para obter um ajuste.</li>
+                            <li>Aplica esse ajuste ao <code class="inline-code">tempo_impulso_calibrado_ms</code> para obter o <code class="inline-code">tempo_impulso_final_ms</code>. Este tempo é limitado para não ser muito curto ou excessivamente longo.</li>
+                            <li>Executa a manobra: aplica o ângulo de direção, move os motores de tração pelo tempo final e depois centraliza a direção.</li>
+                            <li>Atualiza a <code class="inline-code">bussola_virtual_atual_graus</code> para o novo ângulo alvo.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </article>
+
+            <article id="explicacao-calibragem">
+                <h3>4.7. Programa de Calibragem (<code class="inline-code">programa_calibragem</code>)</h3>
+                <p>Esta função interativa é <strong>essencial</strong> para ajustar os parâmetros do seu robô. Ela permite que você teste cada movimento isoladamente.</p>
+                <ul>
+                    <li>Um menu é exibido na tela do EV3, e você navega com os botões Cima/Baixo e seleciona com o botão Centro.</li>
+                    <li><strong>Opções disponíveis:</strong>
+                        <ul>
+                            <li>"Mover Reto 20cm": Testa a função <code class="inline-code">mover_reto</code>. Verifique se o robô realmente anda 20cm. Caso contrário, ajuste <code class="inline-code">DIAMETRO_RODA_TRACAO_MM</code> ou <code class="inline-code">VELOCIDADE_RETA_DPS</code> (embora o diâmetro seja o mais crítico para a precisão da distância se a velocidade for constante).</li>
+                            <li>"Virar D90/E90/D45/E45": Testa as curvas. Observe se o robô vira o ângulo correto. Se não, ajuste <code class="inline-code">ANGULO_VOLANTE_PARA_CURVA_..._GRAUS</code> e <code class="inline-code">TEMPO_IMPULSO_CURVA_..._MS</code> na seção de configurações.</li>
+                            <li>"Centralizar Direcao": Testa se o motor de direção alinha as rodas para frente. Se não, ajuste <code class="inline-code">AJUSTE_CENTRO_DIRECAO_GRAUS</code>.</li>
+                            <li>"Angulo Dir: +10 / -10": Permite girar o motor de direção em incrementos para verificar seu funcionamento e encontrar bons valores para os ângulos de curva.</li>
+                            <li>"Resetar Estado": Chama <code class="inline-code">reset_estado_robo</code>.</li>
+                            <li>"Sair": Retorna ao menu principal do programa.</li>
+                        </ul>
+                    </li>
+                    <li>Você adicionou linhas <code class="inline-code">ev3.screen.print(" ")</code> para deslocar o conteúdo do display, o que pode melhorar a legibilidade.</li>
+                    <li>A pausa adicionada após uma ação ("Ação concluída. Pressione qualquer botão.") é uma boa melhoria para dar tempo de observar o resultado antes de voltar ao menu.</li>
+                </ul>
+            </article>
+
+            <article id="explicacao-percurso">
+                <h3>4.8. Definição do Percurso (<code class="inline-code">percurso_f1</code>)</h3>
+                <p>Esta é uma lista de tuplas que define a sequência de ações que o robô deve executar.</p>
+                <ul>
+                    <li>Cada tupla contém: <code class="inline-code">(comando_string, valor)</code>.</li>
+                    <li><strong>Comandos:</strong>
+                        <ul>
+                            <li><code class="inline-code">"RETO"</code>: O <code class="inline-code">valor</code> é a distância em centímetros a ser percorrida. Ex: <code class="inline-code">("RETO", 50)</code>.</li>
+                            <li><code class="inline-code">"D90"</code>, <code class="inline-code">"E90"</code>, <code class="inline-code">"D45"</code>, <code class="inline-code">"E45"</code>: Para curvas. O <code class="inline-code">valor</code> é <code class="inline-code">None</code> (ignorado), pois os parâmetros da curva são definidos nas constantes.</li>
+                        </ul>
+                    </li>
+                    <li>Você deve preencher as distâncias corretas para cada segmento "RETO" de acordo com a sua pista.</li>
+                </ul>
+            </article>
+
+            <article id="explicacao-logica-principal">
+                <h3>4.9. Lógica Principal de Execução (<code class="inline-code">if __name__ == "__main__":</code>)</h3>
+                <p>Este é o bloco de código que executa quando o programa é iniciado.</p>
+                <ul>
+                    <li>Chama <code class="inline-code">reset_estado_robo()</code> para um início limpo.</li>
+                    <li>Apresenta um menu inicial na tela do EV3, permitindo escolher entre "Calibrar" (botão Esquerdo) ou "Iniciar Percurso" (botão Direito).</li>
+                    <li>Se "Calibrar" for escolhido, chama <code class="inline-code">programa_calibragem()</code>. Após sair da calibragem, o menu inicial é mostrado novamente.</li>
+                    <li>Se "Iniciar Percurso" for escolhido:
+                        <ul>
+                            <li>Itera pela lista <code class="inline-code">percurso_f1</code>.</li>
+                            <li>Para cada passo, limpa a tela e exibe o status (número do passo, bússola virtual). Você adicionou duas linhas <code class="inline-code">ev3.screen.print(" ")</code> aqui, o que deslocará o conteúdo em duas linhas. Se quiser apenas uma linha de deslocamento, remova uma delas.</li>
+                            <li>Executa o comando (<code class="inline-code">mover_reto</code> ou <code class="inline-code">virar_robo</code>).</li>
+                            <li>Emite um beep e faz uma pequena pausa.</li>
+                        </ul>
+                    </li>
+                    <li>Ao final do percurso, exibe "Percurso Concluído!" e toca uma melodia.</li>
+                </ul>
+            </article>
+        </section>
+
+        <section id="solucao-problemas">
+            <h2>5. Solução de Problemas Comuns</h2>
+
+            <article id="problema-reto">
+                <h3>5.1. Robô não anda reto ou a distância está incorreta</h3>
+                <ul>
+                    <li><strong>Causa: Motores com velocidades diferentes / Direção desalinhada.</strong>
+                        <ul>
+                            <li><strong>Solução:</strong> Verifique se ambos os motores de tração estão mecanicamente idênticos (mesmo tipo de roda, sem obstruções). Na função <code class="inline-code">mover_reto</code>, a direção é centralizada antes de mover. Certifique-se que <code class="inline-code">AJUSTE_CENTRO_DIRECAO_GRAUS</code> está bem calibrado para que "reto" seja realmente reto. Se um motor parece consistentemente mais fraco, pode ser um problema de bateria ou do próprio motor.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Causa: <code class="inline-code">DIAMETRO_RODA_TRACAO_MM</code> incorreto.</strong>
+                        <ul>
+                            <li><strong>Solução:</strong> Meça com precisão o diâmetro total da sua roda de tração (incluindo o pneu) em milímetros e atualize a constante <code class="inline-code">DIAMETRO_RODA_TRACAO_MM</code> (você já fez isso, para 43.2). Isso afeta diretamente o cálculo de distância.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Causa: <code class="inline-code">VELOCIDADE_RETA_DPS</code> muito alta, causando patinagem.</strong>
+                        <ul>
+                            <li><strong>Solução:</strong> Reduza a <code class="inline-code">VELOCIDADE_RETA_DPS</code> para ver se melhora a precisão da distância.</li>
+                        </ul>
+                    </li>
+                     <li><strong>Causa: Folga mecânica na estrutura ou nas rodas.</strong>
+                        <ul>
+                            <li><strong>Solução:</strong> Verifique se todas as peças LEGO estão bem encaixadas, especialmente as que conectam as rodas e os motores.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </article>
+
+            <article id="problema-curvas">
+                <h3>5.2. Curvas não são precisas (muito abertas, muito fechadas, ângulo errado)</h3>
+                <ul>
+                    <li><strong>Causa: <code class="inline-code">ANGULO_VOLANTE_PARA_CURVA_..._GRAUS</code> incorreto.</strong>
+                        <ul>
+                            <li><strong>Solução:</strong> Use o <code class="inline-code">programa_calibragem</code> para testar as curvas. Se o robô vira menos que o esperado, aumente este valor (para o tipo de curva correspondente). Se vira demais, diminua. Faça pequenos ajustes.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Causa: <code class="inline-code">TEMPO_IMPULSO_CURVA_..._MS</code> incorreto.</strong>
+                        <ul>
+                            <li><strong>Solução:</strong> Também no <code class="inline-code">programa_calibragem</code>. Se o robô não completa a curva (gira o volante mas não avança o suficiente para descrever o arco), aumente este tempo. Se ele passa do ponto, diminua. Este valor interage com o ângulo do volante e a velocidade da curva.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Causa: <code class="inline-code">VELOCIDADE_CURVA_DPS</code> inadequada.</strong>
+                        <ul>
+                            <li><strong>Solução:</strong> Se a velocidade for muito alta, o robô pode derrapar e a curva sair imprecisa. Se for muito baixa, pode não ter "força" para completar a manobra suavemente. Experimente valores diferentes.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Causa: Superfície da pista com pouca ou muita aderência.</strong>
+                        <ul>
+                            <li><strong>Solução:</strong> A calibração pode precisar ser refeita para diferentes superfícies. Pneus diferentes também podem ajudar.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Causa: Bateria fraca.</strong>
+                        <ul>
+                            <li><strong>Solução:</strong> Motores perdem força com bateria fraca, afetando a consistência dos movimentos. Calibre e opere com bateria bem carregada.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Causa: <code class="inline-code">AJUSTE_CENTRO_DIRECAO_GRAUS</code> incorreto.</strong>
+                        <ul>
+                            <li><strong>Solução:</strong> Se a direção não está verdadeiramente centralizada antes de iniciar a curva, o ponto de partida da curva estará errado. Calibre bem o centro.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </article>
+
+            <article id="problema-direcao-errada">
+                <h3>5.3. Robô anda na direção errada (Ex: de ré quando deveria ir para frente)</h3>
+                <ul>
+                    <li><strong>Causa: Configuração de <code class="inline-code">Direction</code> dos motores de tração.</strong>
+                        <ul>
+                            <li><strong>Solução:</strong> Verifique as linhas onde <code class="inline-code">motor_tracao_esquerdo</code> e <code class="inline-code">motor_tracao_direito</code> são inicializados. Você configurou ambos para <code class="inline-code">Direction.COUNTERCLOCKWISE</code>. Se o robô está indo para frente corretamente com essa configuração, ótimo. Se não, você precisa ajustar esses parâmetros. Frequentemente, se os motores são montados de forma espelhada (um de cada lado do chassi), um precisará ser <code class="inline-code">Direction.CLOCKWISE</code> e o outro <code class="inline-code">Direction.COUNTERCLOCKWISE</code> para que ambos impulsionem o robô para frente quando recebem uma velocidade positiva. Experimente:
+                                <p><code class="inline-code">motor_tracao_esquerdo = Motor(PORTA_MOTOR_TRACAO_ESQUERDO, Direction.CLOCKWISE)</code><br>
+                                <code class="inline-code">motor_tracao_direito = Motor(PORTA_MOTOR_TRACAO_DIREITO, Direction.COUNTERCLOCKWISE)</code></p>
+                                <p>Ou o inverso, dependendo da sua montagem.</p>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </article>
+
+            <article id="problema-motor-direcao">
+                <h3>5.4. Motor de direção não centraliza ou vira para o lado errado</h3>
+                <ul>
+                    <li><strong>Causa: <code class="inline-code">AJUSTE_CENTRO_DIRECAO_GRAUS</code> incorreto.</strong>
+                        <ul>
+                            <li><strong>Solução:</strong> Use a opção "Centralizar Direcao" e "Angulo Dir: +/-10" no <code class="inline-code">programa_calibragem</code>. Se as rodas não ficam retas, ajuste <code class="inline-code">AJUSTE_CENTRO_DIRECAO_GRAUS</code> (valores positivos ou negativos pequenos) até alinhar.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Causa: <code class="inline-code">Direction</code> do <code class="inline-code">motor_direcao</code> invertida.</strong>
+                        <ul>
+                            <li><strong>Solução:</strong> Se comandar uma curva para a direita faz o robô virar à esquerda (e vice-versa), inverta o <code class="inline-code">Direction</code> na inicialização do <code class="inline-code">motor_direcao</code>. Mude de <code class="inline-code">Direction.CLOCKWISE</code> para <code class="inline-code">Direction.COUNTERCLOCKWISE</code> ou o contrário.</li>
+                        </ul>
+                    </li>
+                     <li><strong>Causa: Montagem mecânica.</strong>
+                        <ul>
+                            <li><strong>Solução:</strong> Verifique se não há engrenagens patinando, peças soltas ou algo obstruindo o movimento da direção. Certifique-se que o motor de direção consegue girar livremente o suficiente para os ângulos de curva desejados.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </article>
+
+            <article id="problema-pid">
+                <h3>5.5. Dicas para calibração do PID</h3>
+                <p>A sintonia do PID é um processo iterativo e pode ser desafiador. O objetivo é fazer com que a <code class="inline-code">correcao_pid</code> ajude o robô a atingir o ângulo da <code class="inline-code">bussola_virtual_atual_graus</code> de forma mais precisa, ajustando o <code class="inline-code">tempo_impulso_final_ms</code>.</p>
+                <ul>
+                    <li><strong>Comece Simples:</strong> Defina <code class="inline-code">KI = 0</code> e <code class="inline-code">KD = 0</code> inicialmente.
+                    <li><strong>Ajuste <code class="inline-code">KP</code> (Proporcional):</strong>
+                        <ul>
+                            <li>Se o robô consistentemente vira menos do que deveria (ex: erro da bússola é positivo, mas a curva física é curta), um <code class="inline-code">KP</code> positivo fará com que a <code class="inline-code">correcao_pid</code> seja positiva, aumentando o <code class="inline-code">tempo_impulso_final_ms</code> (dado o fator de <code class="inline-code">int(correcao_pid * 5)</code>).</li>
+                            <li>Aumente <code class="inline-code">KP</code> gradualmente. Se <code class="inline-code">KP</code> for muito alto, o robô pode "passar do ponto" ou oscilar.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Ajuste <code class="inline-code">KI</code> (Integral):</strong>
+                        <ul>
+                            <li>Se, após ajustar <code class="inline-code">KP</code>, ainda houver um pequeno erro persistente nas curvas (o robô sempre para um pouco antes ou um pouco depois do ideal), introduza um pequeno valor para <code class="inline-code">KI</code>. Isso ajudará a eliminar erros de estado estacionário.</li>
+                            <li><code class="inline-code">KI</code> muito alto pode levar a uma correção excessiva e oscilações (o termo integral "acumula" muito erro).</li>
+                        </ul>
+                    </li>
+                    <li><strong>Ajuste <code class="inline-code">KD</code> (Derivativo):</strong>
+                        <ul>
+                            <li><code class="inline-code">KD</code> ajuda a amortecer as oscilações e a prever a tendência do erro. Se o robô está oscilando muito ao tentar corrigir, um pequeno <code class="inline-code">KD</code> pode ajudar.</li>
+                            <li><code class="inline-code">KD</code> muito alto pode tornar o sistema muito "nervoso" a pequenas variações.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Fator de Aplicação da Correção:</strong> A linha <code class="inline-code">ajuste_tempo_impulso_ms = int(correcao_pid * 5)</code> é crucial. O valor `5` determina o quão agressivamente a saída do PID (<code class="inline-code">correcao_pid</code>) influencia o tempo de impulso. Você pode precisar ajustar este multiplicador `5` para mais ou para menos, dependendo da sensibilidade desejada.</li>
+                    <li><strong>Observe e Itere:</strong> Faça pequenas mudanças nos ganhos (<code class="inline-code">KP, KI, KD</code>) e no fator de aplicação, e observe o comportamento do robô no <code class="inline-code">programa_calibragem</code> para o mesmo tipo de curva repetidamente.</li>
+                </ul>
+            </article>
+             <article id="problema-display">
+                <h3>5.6. Problemas com o display</h3>
+                <ul>
+                    <li><strong>Causa: Texto cortado ou não aparecendo.</strong>
+                        <ul>
+                            <li><strong>Solução:</strong> A tela do EV3 tem um número limitado de linhas (cerca de 5-8 com a fonte padrão). Se você imprimir muitas linhas, as mais antigas desaparecerão do topo. As linhas <code class="inline-code">ev3.screen.print(" ")</code> que você adicionou para deslocar o conteúdo para baixo também contam como linhas usadas. Se você adicionou duas delas (como no loop do percurso), o conteúdo útil começará na terceira linha física. Se precisar de mais espaço, remova uma ou ambas as linhas de deslocamento ou seja mais conciso nas mensagens.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Causa: Tela não limpa corretamente.</strong>
+                        <ul>
+                            <li><strong>Solução:</strong> Certifique-se de que <code class="inline-code">ev3.screen.clear()</code> está sendo chamado antes de você começar a imprimir um novo conjunto de informações na tela.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </article>
+        </section>
+
+        <section id="conclusao">
+            <h2>6. Conclusão</h2>
+            <p>Controlar um robô para seguir um percurso com precisão é um desafio que envolve boa montagem mecânica, programação cuidadosa e, acima de tudo, calibração paciente. Este guia e o código fornecido oferecem uma base sólida. Use o <code class="inline-code">programa_calibragem</code> extensivamente, ajuste os parâmetros de configuração e observe o comportamento do seu robô F1. Com experimentação, você poderá otimizar o desempenho dele na pista!</p>
+            <p>Lembre-se que fatores como o nível da bateria e a superfície da pista podem influenciar o comportamento, então pode ser necessário recalibrar ocasionalmente.</p>
+        </section>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+</body>
+</html>
