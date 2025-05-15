@@ -993,6 +993,154 @@ if __name__ == "__main__":
             </article>
         </section>
 
+		
+		<section id="modificar-percurso">
+            <h2>Como Adicionar Mais Retas ou Curvas ao Percurso</h2>
+            <p>Para adicionar mais retas ou curvas ao percurso do seu robô F1, você precisa modificar a lista chamada <code class="inline-code">percurso_f1</code> no seu código Python. Esta lista define a sequência de todos os movimentos que o robô executará.</p>
+
+            <h3>EXTRA 1: Localize a Seção do Percurso no Código:</h3>
+            <p>No seu arquivo Python, procure pela seção comentada como:</p>
+            <pre><code class="language-python">
+# 8. DEFINIÇÃO DO PERCURSO
+#    Cada item é uma tupla: (comando, valor)
+#    Comandos: "RETO", "D90", "E90", "D45", "E45"
+#    Para "RETO", o valor é a distância em cm. Para curvas, o valor é ignorado.
+#    VOCÊ PRECISA DEFINIR AS DISTÂNCIAS PARA OS SEGMENTOS "RETO"
+#    Exemplo: Se um "reto" tem 50cm, use ("RETO", 50)
+
+percurso_f1 = [
+    ("RETO", 50),  # Exemplo de distância, ajuste conforme sua pista
+    ("D90", None),
+    ("RETO", 40),
+    ("E90", None),
+    # ... (restante dos seus comandos de percurso) ...
+    ("D90", None),
+    ("RETO", 30)
+]
+            </code></pre>
+
+            <h3>2. Entendendo o Formato:</h3>
+            <p>Cada linha dentro dos colchetes <code class="inline-code">[...]</code> da lista <code class="inline-code">percurso_f1</code> é uma "instrução" para o robô e tem o formato de uma tupla com dois elementos: <code class="inline-code">(comando, valor)</code>.</p>
+            <ul>
+                <li><strong><code class="inline-code">comando</code></strong>: É uma string que define o tipo de movimento. Os comandos válidos são:
+                    <ul>
+                        <li><code class="inline-code">"RETO"</code>: Para mover o robô em linha reta.</li>
+                        <li><code class="inline-code">"D90"</code>: Para virar 90 graus para a direita.</li>
+                        <li><code class="inline-code">"E90"</code>: Para virar 90 graus para a esquerda.</li>
+                        <li><code class="inline-code">"D45"</code>: Para virar 45 graus para a direita.</li>
+                        <li><code class="inline-code">"E45"</code>: Para virar 45 graus para a esquerda.</li>
+                    </ul>
+                </li>
+                <li><strong><code class="inline-code">valor</code></strong>:
+                    <ul>
+                        <li>Para o comando <code class="inline-code">"RETO"</code>, este valor é a <strong>distância em centímetros</strong> que o robô deve percorrer. Por exemplo, <code class="inline-code">("RETO", 60)</code> faz o robô andar 60 cm.</li>
+                        <li>Para os comandos de curva (<code class="inline-code">"D90"</code>, <code class="inline-code">"E90"</code>, etc.), o <code class="inline-code">valor</code> é ignorado, então você pode simplesmente colocar <code class="inline-code">None</code> (como no exemplo). A magnitude da curva é definida pelos parâmetros que você calibrou (ex: <code class="inline-code">ANGULO_VOLANTE_PARA_CURVA_90_GRAUS</code> e <code class="inline-code">TEMPO_IMPULSO_CURVA_90_GRAUS_MS</code>).</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>3. Como Adicionar Novos Movimentos:</h3>
+            <p>Para adicionar mais retas ou curvas, você simplesmente adiciona novas tuplas <code class="inline-code">(comando, valor)</code> à lista <code class="inline-code">percurso_f1</code>. A ordem das tuplas na lista determina a sequência em que os movimentos serão executados.</p>
+
+            <h4>Exemplo Prático:</h4>
+            <p>Digamos que o final do seu percurso atual seja:</p>
+            <pre><code class="language-python">
+# ... (comandos anteriores) ...
+    ("RETO", 60),
+    ("D90", None),
+    ("RETO", 30)  # Este é o último comando atual
+]
+            </code></pre>
+            <p>E você quer adicionar os seguintes movimentos <strong>depois</strong> disso:</p>
+            <ol>
+                <li>Andar reto por 25 cm.</li>
+                <li>Virar 45 graus para a esquerda.</li>
+                <li>Andar reto por mais 15 cm.</li>
+            </ol>
+            <p>Você modificaria a lista <code class="inline-code">percurso_f1</code> assim:</p>
+            <pre><code class="language-python">
+# ... (comandos anteriores) ...
+    ("RETO", 60),
+    ("D90", None),
+    ("RETO", 30),  # Este era o último comando
+    ("RETO", 25),  # NOVA RETA ADICIONADA
+    ("E45", None), # NOVA CURVA DE 45° À ESQUERDA ADICIONADA
+    ("RETO", 15)   # NOVA RETA ADICIONADA
+] # Fim da lista percurso_f1
+            </code></pre>
+
+            <h3>Dicas Importantes:</h3>
+            <ul>
+                <li><strong>Vírgula no Final:</strong> Certifique-se de que cada tupla na lista (exceto possivelmente a última, embora seja uma boa prática colocar também) termine com uma vírgula <code class="inline-code">,</code> se houver mais itens depois dela.</li>
+                <li><strong>Ordem Correta:</strong> O robô executará os comandos na ordem exata em que aparecem na lista.</li>
+                <li><strong>Inserir no Meio:</strong> Você também pode inserir novos comandos no meio da lista se precisar modificar uma parte específica do percurso, não apenas adicionar ao final.</li>
+                <li><strong>Comentários:</strong> Use comentários (<code class="inline-code"># seu comentário</code>) para ajudar a lembrar por que você adicionou certos movimentos ou para descrever seções da pista.</li>
+            </ul>
+            <p>Após fazer as alterações na lista <code class="inline-code">percurso_f1</code>, salve o arquivo Python e execute-o no seu EV3. O robô seguirá o novo percurso modificado. Lembre-se sempre de testar em uma área segura!</p>
+        </section>
+
+<section id="ajuste-tempo-retas">
+            <h2>Entendendo e Ajustando o Tempo de Movimento em Retas</h2>
+            <p>Certo! Sua observação está correta: retas de comprimentos diferentes naturalmente levarão tempos diferentes para serem percorridas se a velocidade for constante. O código atual já leva isso em consideração.</p>
+            <p>No seu script, a função <code class="inline-code">mover_reto(distancia_cm)</code> não usa um tempo fixo para todas as retas. Em vez disso, você especifica a <strong>distância</strong> que o robô deve percorrer em centímetros para cada comando <code class="inline-code">"RETO"</code> na lista <code class="inline-code">percurso_f1</code>. A função <code class="inline-code">mover_reto</code> então <strong>calcula</strong> o tempo necessário para os motores ficarem ligados com base nessa distância, no diâmetro da roda e na velocidade definida.</p>
+
+            <h3>EXTRA 2: Onde o Tempo é Calculado:</h3>
+            <p>Dentro da função <code class="inline-code">mover_reto(distancia_cm)</code>, estas linhas são responsáveis pelo cálculo do tempo:</p>
+            <pre><code class="language-python">
+def mover_reto(distancia_cm):
+    # ... (outras partes da função) ...
+
+    circunferencia_roda_mm = 3.14159 * DIAMETRO_RODA_TRACAO_MM
+    graus_para_girar = (distancia_cm * 10 / circunferencia_roda_mm) * 360.0 # Calcula quantos graus a roda precisa girar
+    tempo_necessario_ms = (graus_para_girar / VELOCIDADE_RETA_DPS) * 1000.0 # Calcula o tempo em milissegundos
+
+    # ... (depois chama mover_motores_tracao_por_tempo) ...
+            </code></pre>
+            <p>A variável <code class="inline-code">tempo_necessario_ms</code> contém o tempo calculado em milissegundos que os motores de tração ficarão ligados para percorrer a <code class="inline-code">distancia_cm</code> especificada.</p>
+
+            <h3>2. Como Ver o Tempo Calculado para Cada Reta:</h3>
+            <p>Se você quiser ver esse tempo calculado no display do EV3 para cada reta durante a execução do percurso (para fins de ajuste ou depuração), você pode adicionar um comando <code class="inline-code">ev3.screen.print()</code> dentro da função <code class="inline-code">mover_reto</code> para exibir o valor de <code class="inline-code">tempo_necessario_ms</code>.</p>
+            <p>Faça a seguinte modificação na sua função <code class="inline-code">mover_reto</code>:</p>
+            <pre><code class="language-python">
+def mover_reto(distancia_cm):
+    """Move o robô para frente por uma distância aproximada em cm."""
+    ev3.screen.clear()
+    ev3.screen.print("Reto: {} cm".format(distancia_cm))
+    centralizar_direcao(esperar_concluir=True) # Garante que a direção está reta
+
+    if VELOCIDADE_RETA_DPS == 0:
+        ev3.screen.print("Velocidade reta é 0!")
+        return
+
+    if DIAMETRO_RODA_TRACAO_MM == 0:
+        ev3.screen.print("Diametro roda é 0!")
+        return
+        
+    circunferencia_roda_mm = 3.14159 * DIAMETRO_RODA_TRACAO_MM
+    graus_para_girar = (distancia_cm * 10 / circunferencia_roda_mm) * 360.0
+    tempo_necessario_ms = (graus_para_girar / VELOCIDADE_RETA_DPS) * 1000.0
+
+    # LINHA ADICIONADA PARA MOSTRAR O TEMPO CALCULADO:
+    ev3.screen.print("Tempo Calc: {:.0f}ms".format(tempo_necessario_ms))
+    # Você pode adicionar um pequeno wait aqui se quiser mais tempo para ler a tela antes do robô mover:
+    # wait(500) 
+
+    mover_motores_tracao_por_tempo(int(tempo_necessario_ms), VELOCIDADE_RETA_DPS)
+    wait(100) # Pequena pausa
+            </code></pre>
+            <p>Com essa linha adicionada (<code class="inline-code">ev3.screen.print("Tempo Calc: {:.0f}ms".format(tempo_necessario_ms))</code>), toda vez que o robô for executar um movimento "RETO", ele primeiro mostrará no display a distância comandada e, em seguida, o tempo em milissegundos que foi calculado para esse movimento.</p>
+
+            <h3>3. Para Ajustar o Movimento em Reta:</h3>
+            <p>Se o robô <strong>não está percorrendo a distância correta</strong> (ex: você comanda 50cm mas ele anda 45cm ou 55cm):</p>
+            <ul>
+                <li><strong>Verifique <code class="inline-code">DIAMETRO_RODA_TRACAO_MM</code></strong>: Este é o parâmetro mais crítico. Uma pequena diferença aqui pode causar grandes erros na distância percorrida. Meça com a maior precisão possível.</li>
+                <li><strong>Verifique <code class="inline-code">VELOCIDADE_RETA_DPS</code></strong>: Se a velocidade for muito alta, as rodas podem patinar, resultando em menos distância percorrida do que o calculado. Experimente reduzir um pouco a velocidade.</li>
+                <li><strong>Consistência Mecânica</strong>: Certifique-se de que as rodas estão firmes, não há muita folga, e que a superfície permite boa tração.</li>
+            </ul>
+            <p>O tempo que o motor fica ligado é uma <strong>consequência</strong> da distância que você quer percorrer e dos parâmetros físicos/velocidade. Você "ajusta" a distância percorrida primariamente através do diâmetro da roda e garantindo que não haja patinagem, não diretamente ajustando o tempo para uma distância específica (a menos que você mude a lógica para controlar por tempo em vez de distância).</p>
+            <p>Ao visualizar o <code class="inline-code">tempo_necessario_ms</code> calculado, você pode ter uma melhor ideia de como os parâmetros (<code class="inline-code">distancia_cm</code>, <code class="inline-code">DIAMETRO_RODA_TRACAO_MM</code>, <code class="inline-code">VELOCIDADE_RETA_DPS</code>) interagem para produzir o movimento.</p>
+        </section>
+
         <section id="conclusao">
             <h2>6. Conclusão</h2>
             <p>Controlar um robô para seguir um percurso com precisão é um desafio que envolve boa montagem mecânica, programação cuidadosa e, acima de tudo, calibração paciente. Este guia e o código fornecido oferecem uma base sólida. Use o <code class="inline-code">programa_calibragem</code> extensivamente, ajuste os parâmetros de configuração e observe o comportamento do seu robô F1. Com experimentação, você poderá otimizar o desempenho dele na pista!</p>
